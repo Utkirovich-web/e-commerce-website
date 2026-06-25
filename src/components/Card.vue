@@ -1,0 +1,166 @@
+<template>
+  <div class="card">
+    <div class="image-container">
+      <div class="discount-wrapper">
+        <div class="discount">
+          {{ "-" + productData.discountPercentage + "%" }}
+        </div>
+        <div class="icons-wrapper">
+          <button @click="changeWishlist">
+            <img :src="wishlistStatus" alt="wishlist icon" />
+          </button>
+          <router-link to="#">
+            <img src="@/assets/eye-icon.svg" alt="eye icon" />
+          </router-link>
+        </div>
+      </div>
+      <img :src="productData.thumbnail" alt="img" />
+    </div>
+
+    <h2>{{ productData.title }}</h2>
+    <p>
+      {{ productData.price + "$" }}
+      <span>
+        {{ oldPrice + "$" }}
+      </span>
+    </p>
+    <span>{{ rating }} {{ "(" + productData.rating + ")" }}</span>
+  </div>
+</template>
+
+<script setup>
+import { computed, ref } from "vue";
+import emptyWishlist from "@/assets/Wishlist.svg";
+import wishlistRed from "@/assets/wishlist-red-svg.svg";
+
+const wishlistStatus = ref(emptyWishlist);
+
+const changeWishlist = () => {
+  if (wishlistStatus.value === emptyWishlist) {
+    wishlistStatus.value = wishlistRed;
+  } else {
+    wishlistStatus.value = emptyWishlist;
+  }
+};
+
+const props = defineProps({
+  productData: {
+    type: Object,
+    required: true,
+  },
+});
+
+const rating = computed(() => {
+  const currentRating = props.productData.rating;
+
+  if (currentRating >= 4.5) return "★★★★★";
+  if (currentRating >= 4.0) return "★★★★☆";
+  if (currentRating >= 3.5) return "★★★⯪☆";
+  if (currentRating >= 3.0) return "★★★☆☆";
+  if (currentRating >= 2.5) return "★★⯪☆☆";
+  return "★★☆☆☆";
+});
+
+const oldPrice = computed(() => {
+  const currentPrice = props.productData.price;
+  const discount = props.productData.discountPercentage;
+
+  const calculated = currentPrice / (1 - discount / 100);
+
+  return Math.round(calculated);
+});
+</script>
+
+<style lang="scss" scoped>
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  flex-basis: 250px;
+  flex-shrink: 0;
+  flex-grow: 1;
+  max-width: 320px;
+
+  .image-container {
+    position: relative;
+    width: 100%;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 250px;
+      object-fit: contain;
+      margin-bottom: 0;
+    }
+  }
+
+  .discount-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1rem;
+    z-index: 2;
+
+    .icons-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+
+      button {
+        cursor: pointer;
+        border: none;
+        background: none;
+        padding: 0;
+      }
+
+      img {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        background-color: #fff;
+        padding: 8px;
+      }
+    }
+  }
+
+  .discount {
+    text-align: center;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    background-color: #db4444;
+    font-size: 1.2rem;
+  }
+
+  h2,
+  p {
+    color: #000;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 2.4rem;
+  }
+
+  span {
+    color: #ffad33;
+  }
+
+  p {
+    color: #db4444;
+
+    span {
+      color: #000;
+      font-weight: 200;
+      text-decoration: line-through;
+      margin-left: 0.5rem;
+    }
+  }
+}
+</style>
