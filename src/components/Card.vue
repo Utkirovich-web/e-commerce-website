@@ -2,7 +2,7 @@
   <div class="card">
     <div class="image-container">
       <div class="discount-wrapper">
-        <div class="discount">
+        <div class="discount" v-if="props.discountShow" >
           {{ "-" + productData.discountPercentage + "%" }}
         </div>
         <div class="icons-wrapper">
@@ -14,7 +14,10 @@
           </router-link>
         </div>
       </div>
-      <img :src="productData.thumbnail" alt="img" />
+      <div>
+        <img :src="productData.thumbnail" alt="img" />
+        <button class="add-btn">Add To Cart</button>
+      </div>
     </div>
 
     <h2>{{ productData.title }}</h2>
@@ -48,6 +51,11 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  discountShow: {
+    type: Object,
+    required: true,
+  },
+  
 });
 
 const rating = computed(() => {
@@ -81,6 +89,13 @@ const oldPrice = computed(() => {
   flex-shrink: 0;
   flex-grow: 1;
   max-width: 320px;
+
+  &:hover {
+    .add-btn {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 
   .image-container {
     position: relative;
@@ -162,5 +177,22 @@ const oldPrice = computed(() => {
       margin-left: 0.5rem;
     }
   }
+}
+
+.add-btn {
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  color: #fff;
+  width: 100%;
+  border: none;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  background-color: #000;
+  padding-block: 1rem;
+  transition: all 0.4s ease;
+
+  font-size: 1.6rem;
+  font-weight: 2.4rem;
 }
 </style>

@@ -3,31 +3,7 @@
     <div class="top">
       <div class="primary">
         <SectionsName section="Today's" title="Flash Sales" />
-        <div class="timer-wrapper">
-          <div>
-            <p>Days:</p>
-            <span>{{ days.toString().length > 1 ? days : "0" + days }}</span>
-          </div>
-          <span class="colon">:</span>
-          <div>
-            <p>Hours:</p>
-            <span>{{ hours.toString().length > 1 ? hours : "0" + hours }}</span>
-          </div>
-          <span class="colon">:</span>
-          <div>
-            <p>Minutes:</p>
-            <span>{{
-              minutes.toString().length > 1 ? minutes : "0" + minutes
-            }}</span>
-          </div>
-          <span class="colon">:</span>
-          <div>
-            <p>Seconds:</p>
-            <span>{{
-              seconds.toString().length > 1 ? seconds : "0" + seconds
-            }}</span>
-          </div>
-        </div>
+        <TimerSimulator />
       </div>
       <div class="arrow-btns">
         <button @click="prevSlide">
@@ -39,52 +15,53 @@
       </div>
     </div>
 
-    <Cards ref="carouselRef" />
+    <Cards ref="carouselRef" :show-product="false" />
   </section>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import SectionsName from "./SectionsName.vue";
+import TimerSimulator from "./TimerSimulator.vue";
 import Cards from "./Cards.vue";
 
-const days = ref(3);
-const hours = ref(23);
-const minutes = ref(59);
-const seconds = ref(56);
+// const days = ref(3);
+// const hours = ref(23);
+// const minutes = ref(59);
+// const seconds = ref(56);
 
-let timerId = null;
+// let timerId = null;
 
-function timerSimulator() {
-  seconds.value--;
+// function timerSimulator() {
+//   seconds.value--;
 
-  if (seconds.value < 0) {
-    seconds.value = 59;
-    minutes.value--;
+//   if (seconds.value < 0) {
+//     seconds.value = 59;
+//     minutes.value--;
 
-    if (minutes.value < 0) {
-      minutes.value = 59;
-      hours.value--;
+//     if (minutes.value < 0) {
+//       minutes.value = 59;
+//       hours.value--;
 
-      if (hours.value < 0) {
-        hours.value = 23;
-        days.value--;
-      }
-    }
-  }
+//       if (hours.value < 0) {
+//         hours.value = 23;
+//         days.value--;
+//       }
+//     }
+//   }
 
-  if (
-    days.value === 0 &&
-    hours.value === 0 &&
-    minutes.value === 0 &&
-    seconds.value === 0
-  ) {
-    clearInterval(timerId);
-    console.log("Taymer tugadi!");
-  }
-}
+//   if (
+//     days.value === 0 &&
+//     hours.value === 0 &&
+//     minutes.value === 0 &&
+//     seconds.value === 0
+//   ) {
+//     clearInterval(timerId);
+//     console.log("Taymer tugadi!");
+//   }
+// }
 
-timerId = setInterval(timerSimulator, 1000);
+// timerId = setInterval(timerSimulator, 1000);
 
 const carouselRef = ref(null);
 
@@ -112,28 +89,28 @@ function prevSlide() {
     align-items: end;
     gap: 8rem;
 
-    .timer-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      p {
-        color: #000;
-        font-size: 1.2rem;
-        font-weight: 500;
-      }
+    // .timer-wrapper {
+    //   display: flex;
+    //   align-items: center;
+    //   gap: 2rem;
+    //   p {
+    //     color: #000;
+    //     font-size: 1.2rem;
+    //     font-weight: 500;
+    //   }
 
-      span {
-        color: #000;
-        font-weight: 700;
-        font-size: 3.2rem;
-        line-height: 3rem;
-      }
+    //   span {
+    //     color: #000;
+    //     font-weight: 700;
+    //     font-size: 3.2rem;
+    //     line-height: 3rem;
+    //   }
 
-      .colon {
-        color: #e07575;
-        font-size: 3rem;
-      }
-    }
+    //   .colon {
+    //     color: #e07575;
+    //     font-size: 3rem;
+    //   }
+    // }
   }
 
   .arrow-btns {
