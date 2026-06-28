@@ -2,7 +2,7 @@
   <div class="card">
     <div class="image-container">
       <div class="discount-wrapper">
-        <div class="discount" v-if="props.discountShow" >
+        <div class="discount" v-if="props.disCountShow" >
           {{ "-" + productData.discountPercentage + "%" }}
         </div>
         <div class="icons-wrapper">
@@ -51,7 +51,7 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  discountShow: {
+  disCountShow: {
     type: Object,
     required: true,
   },

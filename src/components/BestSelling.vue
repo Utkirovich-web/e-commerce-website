@@ -2,10 +2,17 @@
   <section>
     <div class="wrapper">
       <SectionsName section="This Month" title="Best Selling Products" />
-      <button class="view-btn" @click="showAllProducts">{{ btnPar }}</button>
+
+      <button class="view-btn" @click="showAllProducts">
+        {{ btnPar }}
+      </button>
     </div>
 
-    <Cards :limit-products="limitProduct" :view-all-btn="false" :show-product="true" :dis-count-show="false" />
+    <Cards
+      :limit-products="limitProductN"
+      :view-all-btn="false"
+      :show-product="true"
+      :dis-count-show="false" />
   </section>
 </template>
 
@@ -15,15 +22,14 @@ import SectionsName from "./SectionsName.vue";
 import Cards from "./Cards.vue";
 
 const btnPar = ref("View All");
-
-const limitProduct = ref(true);
+const limitProductN = ref(4);
 
 const showAllProducts = () => {
-  limitProduct.value = !limitProduct.value;
-
-  if (btnPar.value === "View All") {
+  if (limitProductN.value === 4) {
+    limitProductN.value = Infinity;
     btnPar.value = "Hide All";
   } else {
+    limitProductN.value = 4;
     btnPar.value = "View All";
   }
 };

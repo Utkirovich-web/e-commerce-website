@@ -1,11 +1,11 @@
 <template>
-  <section>
+  <div class="section-name">
     <div class="rectangle-wrapper">
       <div class="rectangle"></div>
       <p>{{ section }}</p>
     </div>
     <h2>{{ title }}</h2>
-  </section>
+  </div>
 </template>
 
 <script setup>
@@ -13,7 +13,7 @@ defineProps({
   section: {
     type: String,
     required: true,
-  },
+  }, 
   title: {
     type: String,
     default: "",
@@ -22,7 +22,7 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-section {
+
   .rectangle-wrapper {
     display: flex;
     align-items: center;
@@ -49,5 +49,4 @@ section {
     font-size: 3.6rem;
     line-height: 4.8rem;
   }
-}
 </style>

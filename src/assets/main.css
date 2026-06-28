@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-#app > *:not(header) {
+#app > *:not(header, footer) {
   max-width: 1170px;
   margin: 0 auto;
   width: 100%;

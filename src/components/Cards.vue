@@ -1,11 +1,10 @@
 <template>
-  <div :class="showProductsAll ? 'show' : 'cards'" ref="carouselRef">
+  <div :class="wrapperClass" ref="carouselRef">
     <Card
       v-for="product in displayedProducts"
       :key="product.id"
       :productData="product"
-      :discountShow="props.discountShow"
-    />
+      :disCountShow="props.disCountShow" />
   </div>
   <button v-if="props.viewAllBtn" class="view-btn" @click="showAllProducts">
     {{ btnPar }}
@@ -20,26 +19,13 @@ import Card from "./Card.vue";
 const carouselRef = ref(null);
 const productsList = ref([]);
 
-// const showProduct = ref(false);
 const btnPar = ref("View All Products");
-
-const fetchData = async () => {
-  try {
-    const promise = await fetch("https://dummyjson.com/products");
-    const data = await promise.json();
-
-    productsList.value = data.products;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-fetchData();
+const isExpanded = ref(false);
 
 const props = defineProps({
   limitProducts: {
-    type: Boolean,
-    default: false,
+    type: Number,
+    default: 0,
   },
   viewAllBtn: {
     type: Boolean,
@@ -49,35 +35,51 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  discountShow: {
+  disCountShow: {
     type: Boolean,
     default: true,
   },
 });
 
-const showProductsAll = ref(props.showProduct);
+const fetchData = async () => {
+  try {
+    const response = await fetch("https://dummyjson.com/products");
+    const data = await response.json();
+    productsList.value = data.products;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+fetchData();
 
 const displayedProducts = computed(() => {
-  if (props.limitProducts) {
-    return productsList.value.slice(0, 4);
-  } else {
+  if (isExpanded.value) {
     return productsList.value;
   }
+
+  if (props.limitProducts > 0) {
+    return productsList.value.slice(0, props.limitProducts);
+  }
+
+  return productsList.value;
 });
+
+const wrapperClass = computed(() => {
+  if (isExpanded.value) return "show";
+
+  return props.showProduct ? "show" : "cards";
+});
+
+const showAllProducts = () => {
+  isExpanded.value = !isExpanded.value;
+
+  btnPar.value = isExpanded.value ? "Hide All Products" : "View All Products";
+};
 
 defineExpose({
   carouselRef,
 });
-
-const showAllProducts = () => {
-  showProductsAll.value = !showProductsAll.value;
-
-  if (btnPar.value === "View All Products") {
-    btnPar.value = "Hide All Products";
-  } else {
-    btnPar.value = "View All Products";
-  }
-};
 </script>
 
 <style lang="scss" scoped>
