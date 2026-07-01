@@ -1,15 +1,20 @@
 <template>
   <section>
     <div class="top">
-      <SectionsName section="Categories" title="Browse By Category" />
-      <div class="arrow-btns">
-        <button @click="prevSlide">
-          <img src="@/assets/arrow-left.svg" alt="arrow icon" />
-        </button>
-        <button @click="nextSlide">
-          <img src="@/assets/arrow-right-full.svg" alt="arrow icon" />
-        </button>
-      </div>
+      <SectionsName>
+        <template #section>Categories</template>
+        <template #title>Browse By Category</template>
+        <template #button>
+          <div class="arrow-btns">
+            <button @click="prevSlide">
+              <img src="@/assets/arrow-left.svg" alt="arrow icon" />
+            </button>
+            <button @click="nextSlide">
+              <img src="@/assets/arrow-right-full.svg" alt="arrow icon" />
+            </button>
+          </div>
+        </template>
+      </SectionsName>
     </div>
 
     <div class="bot" ref="carouselRef">

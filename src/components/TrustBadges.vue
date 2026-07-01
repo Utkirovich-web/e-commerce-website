@@ -38,21 +38,15 @@
   justify-content: space-between;
   align-items: center;
   padding: 2rem 0;
-  
-  .badge {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 2rem;
-      border-radius: 4px;
-      transition: transform 0.3s ease;
-      margin-block: 10rem;
 
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
-    }
+  .badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    margin-block: 10rem;
 
     .icon-wrapper {
       background-color: #2f2e3049;
@@ -67,15 +61,15 @@
     }
 
     h2 {
-        color: #000;
+      color: #000;
       font-size: 2rem;
       font-weight: 600;
       margin-bottom: 0.8rem;
     }
 
     p {
-        color: #000;
-        font-weight: 400;
+      color: #000;
+      font-weight: 400;
       font-size: 1.4rem;
       color: #666;
       line-height: 2.1rem;
@@ -83,11 +77,10 @@
   }
 
   div {
-
     .icon-wrapper {
-        background-color: #2f2e3049;
-        border-radius: 50%;
-        padding: 1.5rem;
+      background-color: #2f2e3049;
+      border-radius: 50%;
+      padding: 1.5rem;
     }
 
     img {

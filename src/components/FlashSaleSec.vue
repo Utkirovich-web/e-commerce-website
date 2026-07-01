@@ -2,16 +2,21 @@
   <section>
     <div class="top">
       <div class="primary">
-        <SectionsName section="Today's" title="Flash Sales" />
-        <TimerSimulator />
-      </div>
-      <div class="arrow-btns">
-        <button @click="prevSlide">
-          <img src="@/assets/arrow-left.svg" alt="arrow icon" />
-        </button>
-        <button @click="nextSlide">
-          <img src="@/assets/arrow-right-full.svg" alt="arrow icon" />
-        </button>
+        <SectionsName>
+          <template #section> Today's </template>
+          <template #title> Flash Sales </template>
+          <template #button>
+            <div class="arrow-btns">
+              <button @click="prevSlide">
+                <img src="@/assets/arrow-left.svg" alt="arrow icon" />
+              </button>
+              <button @click="nextSlide">
+                <img src="@/assets/arrow-right-full.svg" alt="arrow icon" />
+              </button>
+            </div>
+          </template>
+        </SectionsName>
+        <!-- <TimerSimulator /> -->
       </div>
     </div>
 
@@ -80,10 +85,6 @@ function prevSlide() {
 
 <style lang="scss" scoped>
 .top {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  margin-bottom: 4rem;
   .primary {
     display: flex;
     align-items: end;

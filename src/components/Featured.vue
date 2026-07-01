@@ -1,4 +1,8 @@
 <template>
+  <SectionsName>
+    <template #section>Featured</template>
+    <template #title>New Arrival</template>
+  </SectionsName>
   <section class="featured-grid">
     <div class="grid-item item-large">
       <img src="@/assets/ps5.png" alt="PlayStation 5" class="item-img" />
@@ -45,7 +49,10 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import SectionsName from './SectionsName.vue';
+
+</script>
 
 <style lang="scss" scoped>
 
@@ -55,6 +62,7 @@
   grid-template-rows: repeat(2, 284px);
   gap: 3rem;
   margin-bottom: 14rem;
+  margin-top: 5rem !important;
 
   .grid-item {
     position: relative;

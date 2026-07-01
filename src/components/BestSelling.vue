@@ -1,18 +1,23 @@
 <template>
   <section>
     <div class="wrapper">
-      <SectionsName section="This Month" title="Best Selling Products" />
-
-      <button class="view-btn" @click="showAllProducts">
-        {{ btnPar }}
-      </button>
+      <SectionsName>
+        <template #section>This Month</template>
+        <template #title>Best Selling Products</template>
+        <template #button>
+          <button class="view-btn" @click="showAllProducts">
+            {{ btnPar }}
+          </button>
+        </template>
+      </SectionsName>
     </div>
 
     <Cards
       :limit-products="limitProductN"
       :view-all-btn="false"
       :show-product="true"
-      :dis-count-show="false" />
+      :dis-count-show="false"
+    />
   </section>
 </template>
 
