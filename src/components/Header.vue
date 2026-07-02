@@ -27,7 +27,7 @@
         <router-link to="/about">About</router-link>
         <router-link to="/signup">Sign Up</router-link>
       </nav>
-      <div class="search-components">
+      <div class="search-components" ref="searchComponentsRef">
         <div class="search">
           <input
             type="text"
@@ -44,6 +44,51 @@
         <router-link to="#">
           <img :src="ShopIcon" alt="shop icon" />
         </router-link>
+
+        <button
+          v-if="isLoggedIn"
+          class="user-btn"
+          :class="{ active: isActive }"
+          @click="showUserMenu"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="30"
+            height="30"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="7" r="4" />
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          </svg>
+        </button>
+
+        <div v-if="isActive" class="hidden-user-menu">
+          <router-link to="#">
+            <img src="@/assets/user.svg" alt="user icon" />
+            <span>Manage My Account</span>
+          </router-link>
+          <router-link to="#">
+            <img src="@/assets/my-order.svg" alt="user icon" />
+            <span>My Order</span>
+          </router-link>
+          <router-link to="#">
+            <img src="@/assets/my-cancellations.svg" alt="user icon" />
+            <span>My Cancellations</span>
+          </router-link>
+          <router-link to="#">
+            <img src="@/assets/my-reviews.svg" alt="user icon" />
+            <span>My Reviews</span>
+          </router-link>
+          <router-link to="#">
+            <img src="@/assets/logout.svg" alt="user icon" />
+            <span>Logout</span>
+          </router-link>
+        </div>
       </div>
     </div>
     <div class="line"></div>
@@ -53,6 +98,33 @@
 <script setup>
 import WishtlistIcon from "@/assets/Wishlist.svg";
 import ShopIcon from "@/assets/shop_icon.svg";
+import { ref, onMounted, onUnmounted } from "vue";
+
+const isActive = ref(false);
+const searchComponentsRef = ref(null);
+
+const isLoggedIn = ref(false);
+
+const showUserMenu = () => {
+  isActive.value = !isActive.value;
+};
+
+const handleClickOutside = (event) => {
+  if (
+    searchComponentsRef.value &&
+    !searchComponentsRef.value.contains(event.target)
+  ) {
+    isActive.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -159,6 +231,67 @@ header {
       display: flex;
       align-items: center;
       gap: 1.6rem;
+      position: relative;
+
+      .hidden-user-menu {
+        position: absolute;
+        top: 100%;
+        right: 4rem;
+        margin-top: 1rem;
+
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+        padding: 1.5rem 2rem;
+        min-width: 220px;
+        z-index: 9999;
+
+        a {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+          margin-bottom: 1.5rem;
+          color: #fff;
+          text-decoration: none;
+          font-size: 1.4rem;
+          line-height: 2.1rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          img {
+            filter: brightness(0) invert(1);
+          }
+        }
+      }
+
+      .user-btn {
+        cursor: pointer;
+        border: none;
+        background: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        color: #000;
+
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .active {
+        color: #fff !important;
+        background-color: #db4444;
+        border-radius: 50%;
+      }
 
       a img {
         display: block;
