@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{ 'header-scrolled': isScrolled }">
     <div class="top">
       <div class="container">
         <div class="shopnow">
@@ -25,7 +25,7 @@
         <router-link to="/">Home</router-link>
         <router-link to="/contact">Contact</router-link>
         <router-link to="/about">About</router-link>
-        <router-link to="/signup">Sign Up</router-link>
+        <router-link v-if="!isLoggedIn" to="/signup">Sign Up</router-link>
       </nav>
       <div class="search-components" ref="searchComponentsRef">
         <div class="search">
@@ -84,26 +84,37 @@
             <img src="@/assets/my-reviews.svg" alt="user icon" />
             <span>My Reviews</span>
           </router-link>
-          <router-link to="#">
+          <button @click.prevent="handleLogout">
             <img src="@/assets/logout.svg" alt="user icon" />
             <span>Logout</span>
-          </router-link>
+          </button>
         </div>
       </div>
     </div>
     <div class="line"></div>
   </header>
+  <div class="header-placeholder"></div>
 </template>
 
 <script setup>
 import WishtlistIcon from "@/assets/Wishlist.svg";
 import ShopIcon from "@/assets/shop_icon.svg";
+import router from "@/router";
 import { ref, onMounted, onUnmounted } from "vue";
 
 const isActive = ref(false);
+const isScrolled = ref(false);
 const searchComponentsRef = ref(null);
 
-const isLoggedIn = ref(false);
+const token = localStorage.getItem("userToken");
+const isLoggedIn = ref(!!token);
+
+const handleLogout = () => {
+  localStorage.removeItem("userToken");
+  isLoggedIn.value = false;
+  isActive.value = false;
+  router.push("/");
+};
 
 const showUserMenu = () => {
   isActive.value = !isActive.value;
@@ -118,23 +129,43 @@ const handleClickOutside = (event) => {
   }
 };
 
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 40;
+};
+
 onMounted(() => {
   document.addEventListener("click", handleClickOutside);
+  window.addEventListener("scroll", handleScroll);
 });
 
 onUnmounted(() => {
   document.removeEventListener("click", handleClickOutside);
+  window.removeEventListener("scroll", handleScroll);
 });
 </script>
 
 <style lang="scss" scoped>
 header {
   width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: #fff;
+  transition:
+    background-color 0.3s ease,
+    backdrop-filter 0.3s ease;
+
+  &.header-scrolled {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
 
   .top {
     width: 100%;
     background-color: #000;
-    margin-bottom: 4rem;
   }
 
   .container {
@@ -199,7 +230,7 @@ header {
     justify-content: space-between;
     margin: 0 auto;
     padding-inline: 2rem;
-    margin-bottom: 2rem;
+    padding-block: 2rem;
 
     .logo {
       text-decoration: none;
@@ -236,9 +267,8 @@ header {
       .hidden-user-menu {
         position: absolute;
         top: 100%;
-        right: 4rem;
+        right: 0;
         margin-top: 1rem;
-
         background-color: rgba(0, 0, 0, 0.4);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
@@ -249,7 +279,8 @@ header {
         min-width: 220px;
         z-index: 9999;
 
-        a {
+        a,
+        button {
           display: flex;
           align-items: center;
           gap: 2rem;
@@ -258,6 +289,12 @@ header {
           text-decoration: none;
           font-size: 1.4rem;
           line-height: 2.1rem;
+          background: none;
+          border: none;
+          width: 100%;
+          text-align: left;
+          cursor: pointer;
+          padding: 0;
 
           &:last-child {
             margin-bottom: 0;
@@ -276,12 +313,10 @@ header {
         display: flex;
         align-items: center;
         justify-content: center;
-
         width: 45px;
         height: 45px;
         border-radius: 50%;
         color: #000;
-
         transition:
           background-color 0.3s ease,
           color 0.3s ease;
@@ -319,5 +354,9 @@ header {
   .line {
     border: #0000004b solid 1px;
   }
+}
+
+.header-placeholder {
+  height: 142px;
 }
 </style>
