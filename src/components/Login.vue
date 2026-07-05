@@ -7,28 +7,19 @@
     <div class="signup-form-wrapper">
       <div class="signup-form">
         <div class="form-header">
-          <h1>Create an account</h1>
+          <h1>Log in to Exclusive</h1>
           <p>Enter your details below</p>
         </div>
 
-        <form @submit.prevent="handleSignup">
-          <input type="text" placeholder="Name" required />
+        <form @submit.prevent="handleLogin">
           <input type="text" placeholder="Email or Phone Number" required />
           <input type="password" placeholder="Password" required />
 
-          <div class="form-actions">
-            <button type="submit" class="primary-btn">Create Account</button>
-            <button type="button" class="primary-btn with-google">
-              <img src="@/assets/Icon-google.svg" alt="google icon" /> Sign up
-              with Google
-            </button>
-          </div>
-
-          <div class="login">
-            <p>
-              Already have account?
-              <router-link to="/login">Log in</router-link>
-            </p>
+          <div class="form-actions login-actions">
+            <button type="submit" class="primary-btn">Log In</button>
+            <router-link to="#" class="forgot-password-link"
+              >Forget Password?</router-link
+            >
           </div>
         </form>
       </div>
@@ -37,8 +28,8 @@
 </template>
 
 <script setup>
-const handleSignup = () => {
-  console.log("Ro'yxatdan o'tish...");
+const handleLogin = () => {
+  console.log("Tizimga kirish...");
 };
 </script>
 
@@ -98,26 +89,6 @@ const handleSignup = () => {
         flex-direction: column;
         gap: 4rem;
 
-        .login {
-          text-align: center;
-          p {
-            font-size: 1.6rem;
-            font-weight: 400;
-            line-height: 2.4rem;
-            color: #7d7d7d;
-
-            a {
-              color: #5c5a5a;
-              text-decoration: none;
-              font-size: 1.6rem;
-              font-weight: 500;
-              line-height: 2.4rem;
-              border-bottom: 1px solid #5c5a5a;
-              padding-bottom: .5rem;
-            }
-          }
-        }
-
         input {
           padding: 1.5rem 0;
           border: none;
@@ -153,19 +124,27 @@ const handleSignup = () => {
               background-color: #e04f4f;
             }
           }
+        }
 
-          .with-google {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1.6rem;
-            background-color: #fff;
-            color: #000;
-            border: 1px solid #00000040;
-            padding-block: 1.4rem;
+        .login-actions {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+
+          .primary-btn {
+            width: auto;
+            padding-inline: 4.8rem;
+          }
+
+          .forgot-password-link {
+            color: #db4444;
+            text-decoration: none;
+            font-size: 1.6rem;
+            font-weight: 400;
+            line-height: 2.4rem;
 
             &:hover {
-              background-color: #00000009;
+              text-decoration: underline;
             }
           }
         }

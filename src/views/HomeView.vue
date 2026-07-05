@@ -7,7 +7,6 @@
   <OurProducts />
   <Featured />
   <TrustBadges />
-  <Footer />
 </template>
 
 <script setup>

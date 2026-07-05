@@ -52,7 +52,7 @@ const props = defineProps({
     required: true,
   },
   disCountShow: {
-    type: Object,
+    type: Boolean,
     required: true,
   },
   

@@ -9,11 +9,11 @@ import SignUp from "@/components/SignUp.vue";
 </template>
 
 <style>
-/* @media (min-width: 1024px) {
+@media (min-width: 1024px) {
   .signup {
     min-height: 100vh;
     display: flex;
     align-items: center;
   }
-} */
+}
 </style>
