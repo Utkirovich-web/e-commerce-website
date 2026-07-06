@@ -4,6 +4,7 @@ import ContactView from "@/views/ContactView.vue";
 import SignupView from "@/views/SignupView.vue";
 import AboutView from "@/views/AboutView.vue";
 import Login from "@/components/Login.vue";
+import Wishlist from "@/components/Wishlist.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,7 +34,22 @@ const router = createRouter({
       name: "login",
       component: Login,
     },
+    {
+      path: "/wishlist",
+      name: "wishlist",
+      component: Wishlist,
+    },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem("userToken");
+
+  if (token && (to.path === "/login" || to.path === "/signup")) {
+    next("/");
+  } else {
+    next();
+  }
 });
 
 export default router;

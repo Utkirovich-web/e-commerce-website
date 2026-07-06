@@ -12,9 +12,19 @@
         </div>
 
         <form @submit.prevent="handleSignup">
-          <input type="text" placeholder="Name" required />
-          <input type="text" placeholder="Email or Phone Number" required />
-          <input type="password" placeholder="Password" required />
+          <input type="text" placeholder="Name" ref="nameInput" required />
+          <input
+            type="text"
+            placeholder="Email or Phone Number"
+            ref="emailInput"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            ref="passwordInput"
+            required
+          />
 
           <div class="form-actions">
             <button type="submit" class="primary-btn">Create Account</button>
@@ -37,8 +47,69 @@
 </template>
 
 <script setup>
-const handleSignup = () => {
-  console.log("Ro'yxatdan o'tish...");
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const nameInput = ref(null);
+const emailInput = ref(null);
+const passwordInput = ref(null);
+
+const errorMessage = ref("");
+
+const signupInfo = reactive({
+  name: "",
+  email: "",
+  password: "",
+});
+
+const handleSignup = async () => {
+  try {
+    errorMessage.value = "";
+
+    signupInfo.name = nameInput.value.value;
+    signupInfo.email = emailInput.value.value;
+    signupInfo.password = passwordInput.value.value;
+
+    const response = await fetch("https://fakestoreapi.com/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: signupInfo.email,
+        username: signupInfo.name.toLowerCase().replace(/\s+/g, ""),
+        password: signupInfo.password,
+        name: {
+          firstname: signupInfo.name,
+          lastname: "User",
+        },
+        address: {
+          city: "Tashkent",
+          street: "Unknown",
+          number: 1,
+          zipcode: "100000",
+          geolocation: { lat: "0", long: "0" },
+        },
+        phone: "0000000",
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Ro'yxatdan o'tishda xatolik yuz berdi!");
+    }
+
+    const data = await response.json();
+
+    localStorage.setItem("userToken", "fake-token-id-" + data.id);
+
+    window.dispatchEvent(new Event("auth-change"));
+
+    router.go(-1);
+  } catch (error) {
+    errorMessage.value = error.message;
+  }
 };
 </script>
 
@@ -113,7 +184,7 @@ const handleSignup = () => {
               font-weight: 500;
               line-height: 2.4rem;
               border-bottom: 1px solid #5c5a5a;
-              padding-bottom: .5rem;
+              padding-bottom: 0.5rem;
             }
           }
         }

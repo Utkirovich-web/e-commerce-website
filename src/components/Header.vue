@@ -37,8 +37,11 @@
           />
           <img src="@/assets/search_icon.svg" alt="search icon" />
         </div>
-        <router-link to="#">
+        <router-link to="/wishlist" class="wishlist-link">
           <img :src="WishtlistIcon" alt="Wishlist icon" />
+          <span v-if="wishlistCount > 0" class="wishlist-badge">{{
+            wishlistCount
+          }}</span>
         </router-link>
 
         <router-link to="#">
@@ -100,14 +103,25 @@
 import WishtlistIcon from "@/assets/Wishlist.svg";
 import ShopIcon from "@/assets/shop_icon.svg";
 import router from "@/router";
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch, computed } from "vue";
+import { useRoute } from "vue-router";
+import { wishlistData } from "@/store/WishlistStore";
 
+const route = useRoute();
 const isActive = ref(false);
 const isScrolled = ref(false);
 const searchComponentsRef = ref(null);
 
-const token = localStorage.getItem("userToken");
-const isLoggedIn = ref(!!token);
+const isLoggedIn = ref(!!localStorage.getItem("userToken"));
+
+const wishlistCount = computed(() => wishlistData.length);
+
+watch(
+  () => route.path,
+  () => {
+    isLoggedIn.value = !!localStorage.getItem("userToken");
+  },
+);
 
 const handleLogout = () => {
   localStorage.removeItem("userToken");
@@ -263,6 +277,29 @@ header {
       align-items: center;
       gap: 1.6rem;
       position: relative;
+
+      .wishlist-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .wishlist-badge {
+          position: absolute;
+          top: -6px;
+          right: -6px;
+          background-color: #db4444;
+          color: #fff;
+          font-size: 1rem;
+          font-weight: 600;
+          border-radius: 50%;
+          width: 16px;
+          height: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
 
       .hidden-user-menu {
         position: absolute;

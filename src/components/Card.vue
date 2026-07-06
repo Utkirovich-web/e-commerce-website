@@ -2,7 +2,7 @@
   <div class="card">
     <div class="image-container">
       <div class="discount-wrapper">
-        <div class="discount" v-if="props.disCountShow" >
+        <div class="discount" v-if="props.disCountShow">
           {{ "-" + productData.discountPercentage + "%" }}
         </div>
         <div class="icons-wrapper">
@@ -32,19 +32,10 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import emptyWishlist from "@/assets/Wishlist.svg";
 import wishlistRed from "@/assets/wishlist-red-svg.svg";
-
-const wishlistStatus = ref(emptyWishlist);
-
-const changeWishlist = () => {
-  if (wishlistStatus.value === emptyWishlist) {
-    wishlistStatus.value = wishlistRed;
-  } else {
-    wishlistStatus.value = emptyWishlist;
-  }
-};
+import { wishlistData, toggleWishlist } from "@/store/WishlistStore";
 
 const props = defineProps({
   productData: {
@@ -55,8 +46,16 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
-  
 });
+
+const wishlistStatus = computed(() => {
+  const isExist = wishlistData.some((item) => item.id === props.productData.id);
+  return isExist ? wishlistRed : emptyWishlist;
+});
+
+const changeWishlist = () => {
+  toggleWishlist(props.productData);
+};
 
 const rating = computed(() => {
   const currentRating = props.productData.rating;

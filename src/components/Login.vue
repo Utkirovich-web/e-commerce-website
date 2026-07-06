@@ -12,8 +12,22 @@
         </div>
 
         <form @submit.prevent="handleLogin">
-          <input type="text" placeholder="Email or Phone Number" required />
-          <input type="password" placeholder="Password" required />
+          <input
+            type="text"
+            placeholder="Username"
+            ref="usernameInput"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            ref="passwordInput"
+            required
+          />
+
+          <div v-if="errorMessage" class="error-alert">
+            {{ errorMessage }}
+          </div>
 
           <div class="form-actions login-actions">
             <button type="submit" class="primary-btn">Log In</button>
@@ -28,8 +42,45 @@
 </template>
 
 <script setup>
-const handleLogin = () => {
-  console.log("Tizimga kirish...");
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const usernameInput = ref(null);
+const passwordInput = ref(null);
+
+const errorMessage = ref("");
+
+const handleLogin = async () => {
+  try {
+    errorMessage.value = "";
+
+    const response = await fetch("https://fakestoreapi.com/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: usernameInput.value.value,
+        password: passwordInput.value.value,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Incorrect username or password!");
+    }
+
+    const data = await response.json();
+
+    localStorage.setItem("userToken", data.token);
+
+    window.dispatchEvent(new Event("auth-change"));
+
+    router.go(-1);
+  } catch (error) {
+    errorMessage.value = error.message;
+  }
 };
 </script>
 
@@ -88,6 +139,31 @@ const handleLogin = () => {
         display: flex;
         flex-direction: column;
         gap: 4rem;
+
+        .error-alert {
+          color: #db4444;
+          background-color: #fdf2f2;
+          border: 1px solid #f5baba;
+          padding: 1.2rem;
+          border-radius: 4px;
+          font-size: 1.4rem;
+          font-weight: 500;
+          text-align: center;
+          animation: shake 0.2s ease-in-out 2;
+        }
+
+        @keyframes shake {
+          0%,
+          100% {
+            transform: translateX(0);
+          }
+          25% {
+            transform: translateX(-4px);
+          }
+          75% {
+            transform: translateX(4px);
+          }
+        }
 
         input {
           padding: 1.5rem 0;
