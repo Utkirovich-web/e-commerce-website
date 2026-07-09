@@ -4,7 +4,9 @@
       v-for="product in displayedProducts"
       :key="product.id"
       :productData="product"
-      :disCountShow="props.disCountShow" />
+      :disCountShow="props.disCountShow"
+      :showAddBtn="props.showAddBtn"
+    />
   </div>
   <button v-if="props.viewAllBtn" class="view-btn" @click="showAllProducts">
     {{ btnPar }}
@@ -15,6 +17,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import Card from "./Card.vue";
+import { wishlistData } from "@/store/WishlistStore.js";
 
 const carouselRef = ref(null);
 const productsList = ref([]);
@@ -39,6 +42,14 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isWishlistPage: {
+    type: Boolean,
+    default: false,
+  },
+  showAddBtn: {
+    type: String,
+    default: "",
+  },
 });
 
 const fetchData = async () => {
@@ -54,15 +65,17 @@ const fetchData = async () => {
 fetchData();
 
 const displayedProducts = computed(() => {
+  const baseProducts = props.isWishlistPage ? wishlistData : productsList.value;
+
   if (isExpanded.value) {
-    return productsList.value;
+    return baseProducts;
   }
 
   if (props.limitProducts > 0) {
-    return productsList.value.slice(0, props.limitProducts);
+    return baseProducts.slice(0, props.limitProducts);
   }
 
-  return productsList.value;
+  return baseProducts;
 });
 
 const wrapperClass = computed(() => {

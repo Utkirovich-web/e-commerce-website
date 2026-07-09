@@ -9,7 +9,7 @@
           </p>
         </div>
         <h2>
-          <slot name="title">Default title</slot>
+          <slot name="title"></slot>
         </h2>
       </div>
       <slot name="timer"></slot>

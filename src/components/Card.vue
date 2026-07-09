@@ -16,7 +16,7 @@
       </div>
       <div>
         <img :src="productData.thumbnail" alt="img" />
-        <button class="add-btn">Add To Cart</button>
+        <button :class="props.showAddBtn" class="add-btn">Add To Cart</button>
       </div>
     </div>
 
@@ -45,6 +45,10 @@ const props = defineProps({
   disCountShow: {
     type: Boolean,
     required: true,
+  },
+  showAddBtn: {
+    type: String,
+    required: false,
   },
 });
 
@@ -193,5 +197,10 @@ const oldPrice = computed(() => {
 
   font-size: 1.6rem;
   font-weight: 2.4rem;
+}
+
+.add-btn.show-add-btn {
+  opacity: 1;
+  visibility: visible;
 }
 </style>

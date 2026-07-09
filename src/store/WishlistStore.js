@@ -13,7 +13,7 @@ const toggleWishlist = (product) => {
     wishlistData.push({
       id: product.id,
       title: product.title,
-      image: product.thumbnail,
+      thumbnail: product.thumbnail,
       price: product.price,
     });
   }

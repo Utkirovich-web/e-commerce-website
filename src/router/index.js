@@ -42,13 +42,11 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   const token = localStorage.getItem("userToken");
 
   if (token && (to.path === "/login" || to.path === "/signup")) {
-    next("/");
-  } else {
-    next();
+    return "/";
   }
 });
 
