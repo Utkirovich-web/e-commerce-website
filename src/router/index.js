@@ -5,6 +5,8 @@ import SignupView from "@/views/SignupView.vue";
 import AboutView from "@/views/AboutView.vue";
 import Login from "@/components/Login.vue";
 import Wishlist from "@/components/Wishlist.vue";
+import Cart from "@/components/Cart.vue";
+import CheckOut from "@/components/CheckOut.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +40,16 @@ const router = createRouter({
       path: "/wishlist",
       name: "wishlist",
       component: Wishlist,
+    },
+    {
+      path: "/cart",
+      name: "cart",
+      component: Cart,
+    },
+    {
+      path: "/checkout",
+      name: "checkout",
+      component: CheckOut,
     },
   ],
 });

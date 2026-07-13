@@ -16,7 +16,22 @@
       </div>
       <div>
         <img :src="productData.thumbnail" alt="img" />
-        <button :class="props.showAddBtn" class="add-btn">Add To Cart</button>
+        
+        <div :class="props.showAddBtn" class="cart-action-wrapper">
+          <div v-if="isInCart" class="quantity-controls">
+            <button @click="decreaseQuantity(props.productData)">-</button>
+            <span>{{ cartItemQuantity }}</span>
+            <button @click="addToCart(props.productData)">+</button>
+          </div>
+          
+          <button 
+            v-else 
+            @click="addToCart(props.productData)" 
+            class="add-btn"
+          >
+            Add To Cart
+          </button>
+        </div>
       </div>
     </div>
 
@@ -36,6 +51,7 @@ import { computed } from "vue";
 import emptyWishlist from "@/assets/Wishlist.svg";
 import wishlistRed from "@/assets/wishlist-red-svg.svg";
 import { wishlistData, toggleWishlist } from "@/store/WishlistStore";
+import { cartData, addToCart, decreaseQuantity } from "@/store/CartStore";
 
 const props = defineProps({
   productData: {
@@ -50,6 +66,15 @@ const props = defineProps({
     type: String,
     required: false,
   },
+});
+
+const isInCart = computed(() => {
+  return cartData.some((item) => item.id === props.productData.id);
+});
+
+const cartItemQuantity = computed(() => {
+  const item = cartData.find((item) => item.id === props.productData.id);
+  return item ? item.quantity : 0;
 });
 
 const wishlistStatus = computed(() => {
@@ -94,7 +119,7 @@ const oldPrice = computed(() => {
   max-width: 320px;
 
   &:hover {
-    .add-btn {
+    .cart-action-wrapper {
       opacity: 1;
       visibility: visible;
     }
@@ -182,25 +207,52 @@ const oldPrice = computed(() => {
   }
 }
 
-.add-btn {
+.cart-action-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   opacity: 0;
   visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 3;
+}
+
+.cart-action-wrapper.show-add-btn {
+  opacity: 1;
+  visibility: visible;
+}
+
+.add-btn {
   cursor: pointer;
   color: #fff;
   width: 100%;
   border: none;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
   background-color: #000;
   padding-block: 1rem;
-  transition: all 0.4s ease;
-
   font-size: 1.6rem;
-  font-weight: 2.4rem;
+  font-weight: 500;
 }
 
-.add-btn.show-add-btn {
-  opacity: 1;
-  visibility: visible;
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #db4444; 
+  color: #fff;
+  padding-block: 1rem;
+  padding-inline: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+
+  button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.8rem;
+    font-weight: bold;
+    padding: 0 1rem;
+  }
 }
 </style>

@@ -44,8 +44,9 @@
           }}</span>
         </router-link>
 
-        <router-link to="#">
+        <router-link to="/cart" class="shop-link">
           <img :src="ShopIcon" alt="shop icon" />
+          <span v-if="cartCount > 0" class="shop-badge">{{ cartCount }}</span>
         </router-link>
 
         <button
@@ -106,6 +107,7 @@ import router from "@/router";
 import { ref, onMounted, onUnmounted, watch, computed } from "vue";
 import { useRoute } from "vue-router";
 import { wishlistData } from "@/store/WishlistStore";
+import { cartData } from "@/store/CartStore";
 
 const route = useRoute();
 const isActive = ref(false);
@@ -115,6 +117,10 @@ const searchComponentsRef = ref(null);
 const isLoggedIn = ref(!!localStorage.getItem("userToken"));
 
 const wishlistCount = computed(() => wishlistData.length);
+
+const cartCount = computed(() => {
+  return cartData.reduce((total, item) => total + item.quantity, 0);
+});
 
 watch(
   () => route.path,
@@ -278,13 +284,15 @@ header {
       gap: 1.6rem;
       position: relative;
 
-      .wishlist-link {
+      .wishlist-link,
+      .shop-link {
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
 
-        .wishlist-badge {
+        .wishlist-badge,
+        .shop-badge {
           position: absolute;
           top: -6px;
           right: -6px;
