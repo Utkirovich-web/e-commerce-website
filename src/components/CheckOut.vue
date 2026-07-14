@@ -1,16 +1,16 @@
 <template>
   <div class="checkout-page">
-    <div class="top">
+    <Roadmap>
       <router-link to="#">Account</router-link>
       <span class="separator">/</span>
-      <router-link to="#">My Account</router-link>
+      <router-link to="/account">My Account</router-link>
       <span class="separator">/</span>
       <router-link to="#">Product</router-link>
       <span class="separator">/</span>
-      <router-link to="#">View Cart</router-link>
+      <router-link to="/cart">View Cart</router-link>
       <span class="separator">/</span>
       <span class="current">CheckOut</span>
-    </div>
+    </Roadmap>
 
     <div class="checkout-wrapper">
       <div class="billing-container">
@@ -178,6 +178,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { cartData } from "@/store/CartStore";
+import Roadmap from "./Roadmap.vue";
 
 const showAllProducts = ref(false);
 const couponCode = ref("");
@@ -220,32 +221,6 @@ const handlePlaceOrder = () => {
   margin: 0 auto;
   padding-inline: 2rem;
   font-family: "Poppins", sans-serif;
-}
-
-.top {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  margin-block: 8rem;
-
-  a {
-    color: #00000080;
-    text-decoration: none;
-    font-weight: 400;
-    font-size: 1.4rem;
-    line-height: 2.1rem;
-  }
-
-  .separator {
-    color: #0000004d;
-    font-size: 1.4rem;
-  }
-
-  .current {
-    color: #000;
-    font-size: 1.4rem;
-    font-weight: 400;
-  }
 }
 
 .checkout-wrapper {
@@ -383,15 +358,15 @@ const handlePlaceOrder = () => {
 }
 
 .see-all-btn {
+  cursor: pointer;
+  text-decoration: underline;
   align-self: flex-start;
-  background: none;
   border: none;
+  background: none;
   color: #db4444;
   font-size: 1.4rem;
   font-weight: 500;
-  cursor: pointer;
   padding: 0;
-  text-decoration: underline;
   margin-top: -1.6rem;
 
   &:hover {

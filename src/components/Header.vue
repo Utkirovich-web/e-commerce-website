@@ -72,7 +72,7 @@
         </button>
 
         <div v-if="isActive" class="hidden-user-menu">
-          <router-link to="#">
+          <router-link to="/account">
             <img src="@/assets/user.svg" alt="user icon" />
             <span>Manage My Account</span>
           </router-link>
@@ -154,7 +154,7 @@ const handleScroll = () => {
 };
 
 onMounted(() => {
-  document.addEventListener("click", handleClickOutside);
+  document.addEventListener("click",   );
   window.addEventListener("scroll", handleScroll);
 });
 

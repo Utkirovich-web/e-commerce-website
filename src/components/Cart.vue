@@ -1,10 +1,10 @@
 <template>
   <div class="cart-page">
-    <div class="top">
+    <Roadmap>
       <router-link to="/">Home</router-link>
-      <span>/</span>
-      <span class="cart-span">Cart</span>
-    </div>
+      <span class="separator">/</span>
+      <span to="/#" class="current">Cart</span>
+    </Roadmap>
 
     <div class="cart-wrapper" v-if="cartData.length > 0">
       <div class="cart-main">
@@ -68,7 +68,9 @@
             <span>${{ cartTotal }}</span>
           </div>
           <div class="checkout-wrapper">
-            <router-link to="/checkout" class="btn-primary">Procees to checkout</router-link>
+            <router-link to="/checkout" class="btn-primary"
+              >Procees to checkout</router-link
+            >
           </div>
         </div>
       </div>
@@ -89,6 +91,7 @@ import {
   removeFromCart,
   decreaseQuantity,
 } from "@/store/CartStore";
+import Roadmap from "./Roadmap.vue";
 
 const cartTotal = computed(() => {
   return cartData.reduce(
@@ -99,15 +102,8 @@ const cartTotal = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-.cart-page {
-  padding: 8rem 2rem;
-  max-width: 1170px;
-  margin: 0 auto;
-  font-family: "Poppins", sans-serif;
-}
-
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .top {
