@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import About from "@/components/About.vue";
 import Roadmap from "@/components/Roadmap.vue";
+import StatsSection from "@/components/StatsSection.vue";
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import Roadmap from "@/components/Roadmap.vue";
       <span class="current">About</span>
     </Roadmap>
     <About />
+    <StatsSection />
   </div>
 </template>
 
