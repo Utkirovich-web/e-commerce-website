@@ -2,6 +2,8 @@
 import About from "@/components/About.vue";
 import Roadmap from "@/components/Roadmap.vue";
 import StatsSection from "@/components/StatsSection.vue";
+import TeamCarusel from "@/components/TeamCarusel.vue";
+import TrustBadges from "@/components/TrustBadges.vue";
 </script>
 
 <template>
@@ -13,6 +15,8 @@ import StatsSection from "@/components/StatsSection.vue";
     </Roadmap>
     <About />
     <StatsSection />
+    <TeamCarusel />
+    <TrustBadges />
   </div>
 </template>
 

@@ -8,56 +8,70 @@ import Wishlist from "@/components/Wishlist.vue";
 import Cart from "@/components/Cart.vue";
 import CheckOut from "@/components/CheckOut.vue";
 import MyAccount from "@/components/MyAccount.vue";
+import ProductsDetails from "@/components/ProductsDetails.vue";
+import NotFoundPage from "@/components/NotFoundPage.vue";
+
+const routes = [
+  {
+    path: "/",
+    name: "home",
+    component: HomeView,
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: AboutView,
+  },
+  {
+    path: "/contact",
+    name: "contact",
+    component: ContactView,
+  },
+  {
+    path: "/signup",
+    name: "signup",
+    component: SignupView,
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: Login,
+  },
+  {
+    path: "/wishlist",
+    name: "wishlist",
+    component: Wishlist,
+  },
+  {
+    path: "/cart",
+    name: "cart",
+    component: Cart,
+  },
+  {
+    path: "/checkout",
+    name: "checkout",
+    component: CheckOut,
+  },
+  {
+    path: "/account",
+    name: "account",
+    component: MyAccount,
+  },
+  {
+    path: "/products-details",
+    name: "products-details",
+    component: ProductsDetails,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFoundPage,
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: "/",
-      name: "home",
-      component: HomeView,
-    },
-    {
-      path: "/about",
-      name: "about",
-      component: AboutView,
-    },
-    {
-      path: "/contact",
-      name: "contact",
-      component: ContactView,
-    },
-    {
-      path: "/signup",
-      name: "signup",
-      component: SignupView,
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: Login,
-    },
-    {
-      path: "/wishlist",
-      name: "wishlist",
-      component: Wishlist,
-    },
-    {
-      path: "/cart",
-      name: "cart",
-      component: Cart,
-    },
-    {
-      path: "/checkout",
-      name: "checkout",
-      component: CheckOut,
-    },
-    {
-      path: "/account",
-      name: "account",
-      component: MyAccount,
-    },
-  ],
+  routes,
 });
 
 router.beforeEach((to, from) => {

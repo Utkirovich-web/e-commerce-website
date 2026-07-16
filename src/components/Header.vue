@@ -154,7 +154,7 @@ const handleScroll = () => {
 };
 
 onMounted(() => {
-  document.addEventListener("click",   );
+  document.addEventListener("click", handleClickOutside);
   window.addEventListener("scroll", handleScroll);
 });
 

@@ -9,33 +9,43 @@
           <button @click="changeWishlist">
             <img :src="wishlistStatus" alt="wishlist icon" />
           </button>
-          <router-link to="#">
+          <router-link :to="`/products-details`" class="icon-link">
             <img src="@/assets/eye-icon.svg" alt="eye icon" />
           </router-link>
         </div>
       </div>
       <div>
         <img :src="productData.thumbnail" alt="img" />
-        
+
         <div :class="props.showAddBtn" class="cart-action-wrapper">
           <div v-if="isInCart" class="quantity-controls">
             <button @click="decreaseQuantity(props.productData)">-</button>
             <span>{{ cartItemQuantity }}</span>
             <button @click="addToCart(props.productData)">+</button>
           </div>
-          
-          <button 
-            v-else 
-            @click="addToCart(props.productData)" 
-            class="add-btn"
-          >
+
+          <button v-else @click="addToCart(props.productData)" class="add-btn">
             Add To Cart
           </button>
         </div>
       </div>
     </div>
 
-    <h2>{{ productData.title }}</h2>
+    <h2>
+      <router-link
+        :to="{
+          path: '/products-details',
+          query: {
+            title: productData.title,
+            price: productData.price,
+            image: productData.thumbnail,
+          },
+        }"
+        class="stretched-link"
+      >
+        {{ productData.title }}
+      </router-link>
+    </h2>
     <p>
       {{ productData.price + "$" }}
       <span>
@@ -109,6 +119,7 @@ const oldPrice = computed(() => {
 
 <style lang="scss" scoped>
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -157,11 +168,15 @@ const oldPrice = computed(() => {
       align-items: center;
       gap: 0.5rem;
 
-      button {
+      button,
+      .icon-link {
+        position: relative;
+        z-index: 3;
         cursor: pointer;
         border: none;
         background: none;
         padding: 0;
+        display: inline-flex;
       }
 
       img {
@@ -183,20 +198,35 @@ const oldPrice = computed(() => {
     font-size: 1.2rem;
   }
 
-  h2,
-  p {
+  h2 {
     color: #000;
     font-size: 1.6rem;
     font-weight: 500;
     line-height: 2.4rem;
-  }
+    margin: 0;
 
-  span {
-    color: #ffad33;
+    .stretched-link {
+      color: inherit;
+      text-decoration: none;
+
+      &::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        content: "";
+      }
+    }
   }
 
   p {
     color: #db4444;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 2.4rem;
+    margin: 0;
 
     span {
       color: #000;
@@ -204,6 +234,10 @@ const oldPrice = computed(() => {
       text-decoration: line-through;
       margin-left: 0.5rem;
     }
+  }
+
+  span {
+    color: #ffad33;
   }
 }
 
@@ -238,7 +272,7 @@ const oldPrice = computed(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #db4444; 
+  background-color: #db4444;
   color: #fff;
   padding-block: 1rem;
   padding-inline: 1.5rem;
